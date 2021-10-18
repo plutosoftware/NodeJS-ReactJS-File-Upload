@@ -1,29 +1,20 @@
 const express = require("express");
+const cors = require("cors");
 const multer = require("multer");
+const upload = require("./upload");
 
 const app = express();
 app.use(express.json());
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "uploads/");
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + "-" + file.originalname);
-    },
-});
-
-const uploadStorage = multer({ storage: storage });
-const upload = uploadStorage.array("file");
+app.use(cors());
 
 app.post("/api/upload/", async (req, res) => {
     upload(req, res, function (err) {
         if (err instanceof multer.MulterError) {
-            return res.send(err.message);
+            res.status(400);
         } else if (err) {
-            return res.send(err);
+            res.status(400);
         }
-        console.log(req.files);
+        res.status(200).json({ message: "OK" });
     });
 });
 
