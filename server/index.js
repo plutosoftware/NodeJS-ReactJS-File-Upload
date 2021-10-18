@@ -14,13 +14,13 @@ app.post("/api/upload/", async (req, res) => {
         } else if (err) {
             res.status(400);
         }
-        res.status(200).json({ message: "OK" });
+        res.status(200);
     });
 });
 
 app.listen(8020, (err) => {
     if (err) {
-        console.log(er);
+        console.log(err);
     } else {
         console.log("Connected");
     }
